@@ -36,15 +36,13 @@ void tldlir001::Image::load(std::string name)
         height = stoi(tokens[0]);
         width = stoi(tokens[1]);
 
+        slices.reserve(height);
         //make necessary space for vector
         for (int i = 0; i < height; i++)
         {
-            slices[i] = new unsigned char [height];
-            for (int j = 0; j < width ; j++)
-            {
-                slices[j] = new unsigned char[width];
-            }
+            slices[i] = new unsigned char[width];
         }
+
 
         //skip one more line
         getline(in,line);
@@ -52,22 +50,33 @@ void tldlir001::Image::load(std::string name)
         //storing byte data in vector
         for (int k = 0; k < height; k++)
         {
-            for (int l = 0; l < width; l++)
-            {
-
-                
-                in.read((char*)slices[k],width);
-            }
+            in.read((char*)slices[k],width);
         }
 
 
+        in.close();
 
     }
 
 }
 
-void tldlir001::Image::save(std::string)
+void tldlir001::Image::save(std::string name)
 {
+    ofstream out;
+
+    out.open(name);
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            out << slices[i][j];
+        }
+    }
+
+
+    out.close();
+
 
 }
 

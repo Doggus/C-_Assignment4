@@ -12,13 +12,11 @@ int main()
     tldlir001::Image img;
     img.load("shrek_rectangular.pgm");
 
-    for (int i = 0; i < img.height; ++i)
-    {
-        for (int j = 0; j < img.width; ++j)
-        {
-            cout << img.slices[i][j] << endl;
-        }
-    }
+    cout << "height: " << img.height << endl;
+    cout << "width: " << img.width << endl;
+    
+
+    img.save("output.txt");
 
 
     return 0;
