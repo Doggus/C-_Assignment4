@@ -6,10 +6,44 @@
 
 using namespace std;
 
+//default
 tldlir001::Image::Image()
 {
+    width = 0;
+    height = 0;
+    slices;
+}
+
+//normal
+tldlir001::Image::Image(string name)
+{
+    load(name);
+}
+
+tldlir001::Image::Image(const tldlir001::Image &img)
+{
+
+    cout << "1" << endl;
+    width = img.width;
+    cout << "2" << endl;
+   // height = img.height; //this line causes segmentation fault WHY!!!!!!!!!!!!!!!!!!!!!
+    slices = img.slices;
+
+
+    /*
+    for (int i = 0; i< img.height; i++)
+    {
+        for (int j = 0; j < img.width; ++j)
+        {
+            slices[i][j] = img.slices[i][j];
+        }
+
+    }
+     */
 
 }
+
+
 
 void tldlir001::Image::load(std::string name)
 {
@@ -74,9 +108,7 @@ void tldlir001::Image::save(std::string name)
         }
     }
 
-
     out.close();
-
 
 }
 
@@ -85,6 +117,7 @@ Image tldlir001::Image::operator+(const Image &)
 {
 
 }
+
 
 Image tldlir001::Image::operator-(const Image &)
 {
@@ -109,5 +142,8 @@ Image tldlir001::Image::operator*(const int &)
 
 tldlir001::Image::~Image()
 {
-
+    for (int i = 0; i < height; i++)
+    {
+        delete[] slices[i];
+    }
 }

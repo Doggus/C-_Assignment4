@@ -32,8 +32,12 @@ namespace tldlir001
             Image operator<<(const Image &);
             Image operator>>(const Image &);
 
-            Image();
-            ~Image();
+            Image(std::string name); //normal
+            Image(); //default
+            Image(const tldlir001::Image &img); //copy
+            Image(const tldlir001::Image &&img); //move
+
+            ~Image(); //destructor
 
     };
 }

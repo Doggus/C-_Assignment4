@@ -6,18 +6,16 @@ using namespace std;
 
 int main()
 {
-
     std::cout << "Hello, World!" << std::endl;
 
-    tldlir001::Image img;
-    img.load("shrek_rectangular.pgm");
+    tldlir001::Image img("shrek_rectangular.pgm");
 
     cout << "height: " << img.height << endl;
     cout << "width: " << img.width << endl;
-    
 
-    img.save("output.txt");
-
+    tldlir001::Image Cimg(img);
+    //Cimg.save("CopyOutput.txt");
+    cout <<"done"<<endl;
 
     return 0;
 
