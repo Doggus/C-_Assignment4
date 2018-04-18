@@ -38,9 +38,9 @@ namespace tldlir001
             Image(std::string name); //normal
             Image(); //default
             Image(const tldlir001::Image &img); //copy
-            Image(const tldlir001::Image &&img); //move
+            Image(tldlir001::Image &&img); //move
 
-            //~Image(); //destructor
+            ~Image(); //destructor
 
         class iterator
         {

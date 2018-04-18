@@ -24,135 +24,78 @@ tldlir001::Image::Image(string name)
 tldlir001::Image::Image(const tldlir001::Image &img)
 {
 
-    cout << "1" << endl;
     width = img.width;
-    cout << "2" << endl;
-   // height = img.height; //this line causes segmentation fault WHY!!!!!!!!!!!!!!!!!!!!!
-    //slices = img.slices;
-
-
-    /*
-    for (int i = 0; i< img.height; i++)
+    height = img.height;
+    data = unique_ptr<unsigned char[]>(new unsigned char[width*height]); //assign space
+    for (int i = 0; i < width*height; ++i)
     {
-        for (int j = 0; j < img.width; ++j)
-        {
-            slices[i][j] = img.slices[i][j];
-        }
-
+        data[i] = img.data[i]; //copy
     }
+
+}
+
+tldlir001::Image::Image(tldlir001::Image &&img) //no const because we want to change values
+{
+    /*
+    //Auto
+    width = img.width;
+    height = img.height;
+    //might have to make img.w and img.h =0 and img.data = nullptr if std::move doesn't work
+    data = std::move(img.data); //should do what Manual code does
     */
 
-}
+    //Manual:
 
-tldlir001::Image::Image(const tldlir001::Image &&img)
-{
-}
-
-/*
-
-void tldlir001::Image::load(std::string name)
-{
-    ifstream in(name);
-
-    if(!in)
+    //assign new values
+    width = img.width;
+    height = img.height;
+    data = unique_ptr<unsigned char[]>(new unsigned char[width*height]); //assign space
+    for (int i = 0; i < width*height; ++i)
     {
-        cout << "Couldn't open file" << endl;
-    }
-    else
-    {
-        //skip two lines
-        string line = "";
-        getline(in,line);
-        getline(in,line);
-
-        getline(in,line); //height and width always on third line (height width)
-
-        istringstream buf(line);
-        istream_iterator<string> beg(buf), end;
-
-        vector<string> tokens(beg,end);
-
-        height = stoi(tokens[0]);
-        width = stoi(tokens[1]);
-
-        slices.reserve(height);
-        //make necessary space for vector
-        for (int i = 0; i < height; i++)
-        {
-            slices[i] = new unsigned char[width];
-        }
-
-
-        //skip one more line
-        getline(in,line);
-
-        //storing byte data in vector
-        for (int k = 0; k < height; k++)
-        {
-            in.read((char*)slices[k],width);
-        }
-
-
-        in.close();
-
+        data[i] = img.data[i]; //copy
     }
 
+    //deletes old values
+    img.height = 0;
+    img.width = 0;
+    img.data = nullptr;
+
+    //hence Move
 }
-
-void tldlir001::Image::save(std::string name)
-{
-    ofstream out;
-
-    out.open(name);
-
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            out << slices[i][j];
-        }
-    }
-
-    out.close();
-
-}
-
-
-Image tldlir001::Image::operator+(const Image &)
-{
-
-}
-
-
-Image tldlir001::Image::operator-(const Image &)
-{
-
-}
-
-Image tldlir001::Image::operator!(void)
-{
-
-}
-
-Image tldlir001::Image::operator/(const Image &)
-{
-
-}
-
-Image tldlir001::Image::operator*(const int &)
-{
-
-}
-
 
 tldlir001::Image::~Image()
 {
-    for (int i = 0; i < height; i++)
-    {
-        delete[] slices[i];
-    }
+    data = nullptr;
 }
-*/
+
+
+tldlir001::Image tldlir001::Image::operator+(const Image &)
+{
+
+}
+
+
+tldlir001::Image tldlir001::Image::operator-(const Image &)
+{
+
+}
+
+tldlir001::Image tldlir001::Image::operator!(void)
+{
+
+}
+
+tldlir001::Image tldlir001::Image::operator/(const Image &)
+{
+
+}
+
+tldlir001::Image tldlir001::Image::operator*(const int &)
+{
+
+}
+
+
 
 void tldlir001::Image::load(std::string name)
 {

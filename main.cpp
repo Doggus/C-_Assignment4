@@ -13,11 +13,11 @@ int main()
     //cout << "height: " << img.height << endl;
     //cout << "width: " << img.width << endl;
 
-    //tldlir001::Image Cimg(img);
+    tldlir001::Image Cimg(img);
     //Cimg.save("CopyOutput.txt");
     //cout <<"done"<<endl;
 
-    img.save("output.pgm");
+    //img.save("output.pgm");
 
     return 0;
 
