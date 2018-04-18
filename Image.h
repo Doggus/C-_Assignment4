@@ -8,6 +8,8 @@
 #include <iterator>
 #include <iostream>
 #include <string>
+#include <memory>
+//#include <iterator>
 
 #ifndef IMAGEOPS_IMAGE_H
 #define IMAGEOPS_IMAGE_H
@@ -16,11 +18,12 @@ namespace tldlir001
 {
     class Image
     {
-        public:
+        private:
             int width;
             int height;
-            std::vector<unsigned char*> slices;
+            std::unique_ptr<unsigned char[]> data;
 
+        public:
             void load(std::string name); //read
             void save(std::string name); //write
 
@@ -37,9 +40,34 @@ namespace tldlir001
             Image(const tldlir001::Image &img); //copy
             Image(const tldlir001::Image &&img); //move
 
-            ~Image(); //destructor
+            //~Image(); //destructor
+
+        class iterator
+        {
+
+            private:
+                unsigned char *ptr;
+                iterator(u_char *p) : ptr(p){}; //constructor (defined in header)
+                friend class Image;
+
+            public:
+                //iterator(const tldlir001::iterator &i); //copy
+                //iterator(const tldlir001::iterator &&i); //move
+                //~iterator(); //destructor
+
+            unsigned char operator*(void);
+            tldlir001::Image::iterator operator++(void);
+            tldlir001::Image::iterator operator--(void);
+            tldlir001::Image::iterator operator=(const iterator & rhs);
+
+        };
+
+        iterator Begin(void);
+        iterator End(void);
 
     };
+
+
 }
 
 

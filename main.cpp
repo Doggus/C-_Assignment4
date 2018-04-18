@@ -10,12 +10,14 @@ int main()
 
     tldlir001::Image img("shrek_rectangular.pgm");
 
-    cout << "height: " << img.height << endl;
-    cout << "width: " << img.width << endl;
+    //cout << "height: " << img.height << endl;
+    //cout << "width: " << img.width << endl;
 
-    tldlir001::Image Cimg(img);
+    //tldlir001::Image Cimg(img);
     //Cimg.save("CopyOutput.txt");
-    cout <<"done"<<endl;
+    //cout <<"done"<<endl;
+
+    img.save("output.txt");
 
     return 0;
 
