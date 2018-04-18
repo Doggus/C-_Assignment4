@@ -17,7 +17,7 @@ int main()
     //Cimg.save("CopyOutput.txt");
     //cout <<"done"<<endl;
 
-    img.save("output.txt");
+    img.save("output.pgm");
 
     return 0;
 

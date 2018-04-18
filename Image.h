@@ -55,14 +55,15 @@ namespace tldlir001
                 //iterator(const tldlir001::iterator &&i); //move
                 //~iterator(); //destructor
 
-            unsigned char operator*(void);
+            u_char &operator*(void);
             tldlir001::Image::iterator operator++(void);
             tldlir001::Image::iterator operator--(void);
-            tldlir001::Image::iterator operator=(const iterator & rhs);
+            tldlir001::Image::iterator &operator=(const iterator & rhs);
+            bool operator!=(const iterator & rhs);
 
         };
 
-        iterator Begin(void);
+        iterator begin(void);
         iterator End(void);
 
     };

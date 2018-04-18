@@ -181,11 +181,19 @@ void tldlir001::Image::load(std::string name)
 
         data = unique_ptr<unsigned char[]>(new unsigned char[width*height]);
 
+        //skip one more line
+        getline(in,line);
 
-        for (int i = 0; i < width*height; ++i)
+//        for (int i = 0; i < width*height; ++i)
+//        {
+//            data[i] = in.get();
+//        }
+
+        for (auto i = begin(); i != End(); ++i)
         {
-            data[i] = in.get();
+            *i = in.get();
         }
+
     }
 
 }
@@ -194,16 +202,21 @@ void tldlir001::Image::save(std::string name)
 {
     ofstream out(name, ios::binary);
 
-    for (int i = 0; i < width*height; i++)
-    {
-        out.put(data[i]);
-    }
+//    for (int i = 0; i < width*height; i++)
+//    {
+//        out.put(data[i]);
+//    }
+
+     for(auto i = begin(); i != End(); ++i)
+     {
+         out.put(*i);
+     }
 
     out.close();
 
 }
 
-tldlir001::Image::iterator tldlir001::Image::Begin(void)
+tldlir001::Image::iterator tldlir001::Image::begin(void)
 {
     return iterator(&data.get()[0]);
 }
@@ -213,7 +226,7 @@ tldlir001::Image::iterator tldlir001::Image::End(void)
     return iterator(&data.get()[width*height]);
 }
 
-unsigned char tldlir001::Image::iterator::operator*(void)
+u_char &tldlir001::Image::iterator::operator*(void)
 {
     return *ptr;
 }
@@ -230,9 +243,15 @@ tldlir001::Image::iterator tldlir001::Image::iterator::operator--(void)
     return *this;
 }
 
-tldlir001::Image::iterator tldlir001::Image::iterator::operator=(const iterator & rhs)
+tldlir001::Image::iterator &tldlir001::Image::iterator::operator=(const iterator & rhs)
 {
     this->ptr = rhs.ptr;
+    return *this;
+}
+
+bool tldlir001::Image::iterator::operator!=(const iterator & rhs)
+{
+    return this->ptr != rhs.ptr;
 }
 
 
