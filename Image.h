@@ -42,6 +42,8 @@ namespace tldlir001
 
             ~Image(); //destructor
 
+            unsigned char clamp(int c);
+
         class iterator
         {
 

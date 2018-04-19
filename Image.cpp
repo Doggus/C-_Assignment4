@@ -41,7 +41,7 @@ tldlir001::Image::Image(tldlir001::Image &&img) //no const because we want to ch
     width = img.width;
     height = img.height;
     //might have to make img.w and img.h =0 and img.data = nullptr if std::move doesn't work
-    data = std::move(img.data); //should do what Manual code does
+    data = std::move(img.data); //should do what Manual code does (doesn't work)
     */
 
     //Manual:
@@ -69,9 +69,47 @@ tldlir001::Image::~Image()
 }
 
 
-tldlir001::Image tldlir001::Image::operator+(const Image &)
+tldlir001::Image tldlir001::Image::operator+(const Image &img)
 {
+    Image image;
 
+    //two images need to be same size
+    if(this->width == img.width && this->height == img.height)
+    {
+        //thus new image will have either of their sizes
+        image.width = this->width;
+        image.height = this->height;
+        //assign necessary space
+        image.data = unique_ptr<unsigned char[]>(new unsigned char[image.width*image.height]);
+
+          // This works but decided to go with the iterator approach (keep in line with the project)
+        /*
+        for (int i = 0; i < image.width*image.height; ++i)
+        {
+            int c = (int)this->data[i] + (int)img.data[i];
+            image.data[i] = clamp(c);
+        }
+        */
+
+        //Iterator approach
+        Image im(img); // copy of img (necessary step)
+        auto t = this->begin();
+        auto m = im.begin();
+        for (auto i = image.begin(); i != image.End(); ++i)
+        {
+            int c = (int)(*t) + (int)(*m);
+            *i = clamp(c);
+            ++t;
+            ++m;
+        }
+
+    }
+    else
+    {
+        cout << "Images do not have the same width and height (size)" << endl;
+    }
+
+    return image;
 }
 
 
@@ -95,7 +133,22 @@ tldlir001::Image tldlir001::Image::operator*(const int &)
 
 }
 
+unsigned char tldlir001::Image::clamp(int c)
+{
 
+    if(c >= 255)
+    {
+        c = 255;
+    }
+
+    if(c <= 0)
+    {
+        c = 0;
+    }
+
+    unsigned char chr = (unsigned char)c;
+    return c;
+}
 
 void tldlir001::Image::load(std::string name)
 {
@@ -150,6 +203,11 @@ void tldlir001::Image::save(std::string name)
 //        out.put(data[i]);
 //    }
 
+     out << "P5" << endl;
+     out << "# CREATOR: GIMP PNM Filter Version 1.1" << endl;
+     out << height << " " << width << endl;
+     out << "255" << endl;
+
      for(auto i = begin(); i != End(); ++i)
      {
          out.put(*i);
@@ -159,12 +217,12 @@ void tldlir001::Image::save(std::string name)
 
 }
 
-tldlir001::Image::iterator tldlir001::Image::begin(void)
+tldlir001::Image::iterator tldlir001::Image::begin(void) //const maybe
 {
     return iterator(&data.get()[0]);
 }
 
-tldlir001::Image::iterator tldlir001::Image::End(void)
+tldlir001::Image::iterator tldlir001::Image::End(void) //const maybe
 {
     return iterator(&data.get()[width*height]);
 }
