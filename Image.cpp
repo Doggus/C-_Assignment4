@@ -82,7 +82,7 @@ tldlir001::Image tldlir001::Image::operator+(const Image &img)
         //assign necessary space
         image.data = unique_ptr<unsigned char[]>(new unsigned char[image.width*image.height]);
 
-          // This works but decided to go with the iterator approach (keep in line with the project)
+        // This works but decided to go with the iterator approach (keep in line with the project)
         /*
         for (int i = 0; i < image.width*image.height; ++i)
         {
@@ -113,24 +113,120 @@ tldlir001::Image tldlir001::Image::operator+(const Image &img)
 }
 
 
-tldlir001::Image tldlir001::Image::operator-(const Image &)
+tldlir001::Image tldlir001::Image::operator-(const Image &img)
 {
+    Image image;
 
+    //two images need to be same size
+    if(this->width == img.width && this->height == img.height)
+    {
+        //thus new image will have either of their sizes
+        image.width = this->width;
+        image.height = this->height;
+        //assign necessary space
+        image.data = unique_ptr<unsigned char[]>(new unsigned char[image.width*image.height]);
+
+        //Iterator approach
+        Image im(img); // copy of img (necessary step)
+        auto t = this->begin();
+        auto m = im.begin();
+        for (auto i = image.begin(); i != image.End(); ++i)
+        {
+            int c = (int)(*t) - (int)(*m);
+            *i = clamp(c);
+            ++t;
+            ++m;
+
+        }
+
+    }
+    else
+    {
+       cout << "Images do not have the same width and height (size)" << endl;
+    }
+
+    return image;
 }
 
 tldlir001::Image tldlir001::Image::operator!(void)
 {
+    Image image;
+    image.width = this->width;
+    image.height = this->height;
+    image.data = unique_ptr<unsigned char[]>(new unsigned char[image.width*image.height]);
 
+    auto t = this->begin();
+    for (auto i = image.begin(); i != image.End(); ++i)
+    {
+        int c = 255 - (int)*t;
+        *i = clamp(c);
+
+        ++t;
+    }
+
+    return image;
 }
 
-tldlir001::Image tldlir001::Image::operator/(const Image &)
+tldlir001::Image tldlir001::Image::operator/(const Image &img)
 {
+    Image image;
 
+    if(this->width == img.width && this->height == img.height)
+    {
+        image.width = this->width;
+        image.height = this->height;
+        image.data = unique_ptr<unsigned char[]>(new unsigned char[image.width * image.height]);
+
+
+        Image im(img); // copy of img (necessary step)
+        auto t = this->begin();
+        auto m = im.begin();
+        for (auto i = image.begin(); i != image.End(); ++i)
+        {
+            if (*m == 255)
+            {
+                *i = clamp(*t);
+            }
+            else
+                cout << "Images do not have the same width and height (size)" << endl;  {
+                *i = clamp(0);
+            }
+
+            ++t;
+            ++m;
+        }
+    }
+    else
+    {
+        cout << "Images do not have the same width and height (size)" << endl;
+    }
+
+    return image;
 }
 
-tldlir001::Image tldlir001::Image::operator*(const int &)
+tldlir001::Image tldlir001::Image::operator*(const int &f)
 {
+    Image image;
+    image.width = this->width;
+    image.height = this->height;
+    image.data = unique_ptr<unsigned char[]>(new unsigned char[image.width*image.height]);
 
+    auto t = this->begin();
+    for (auto i = image.begin(); i != image.End(); ++i)
+    {
+        if((int)*t > f)
+        {
+            *i = clamp(255);
+        }
+        else
+        {
+            *i = clamp(0);
+        }
+
+        ++t;
+    }
+
+    return image;
 }
 
 unsigned char tldlir001::Image::clamp(int c)
