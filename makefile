@@ -12,3 +12,10 @@ Image.o: Image.h Image.cpp
 
 run:
 	./imageops
+
+
+test: UnitTests.cpp
+	$(CC) -o UnitTests UnitTests.cpp Image.cpp -std=c++11
+
+runTest:
+	./UnitTests
