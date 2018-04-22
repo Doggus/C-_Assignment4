@@ -187,18 +187,19 @@ tldlir001::Image tldlir001::Image::operator/(const Image &img)
             {
                 *i = clamp(*t);
             }
-            else
-                cout << "Images do not have the same width and height (size)" << endl;  {
+            else 
+            {
                 *i = clamp(0);
             }
 
             ++t;
             ++m;
         }
+
     }
     else
     {
-        cout << "Images do not have the same width and height (size)" << endl;
+      cout << "Images do not have the same width and height (size)" << endl;
     }
 
     return image;
