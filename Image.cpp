@@ -311,6 +311,21 @@ std::istream &tldlir001::operator>>(std::istream &in, Image &img)
 
 }
 
+int tldlir001::Image::getHeight()
+{
+    return height;
+}
+
+int tldlir001::Image::getWidth()
+{
+    return width;
+}
+
+std::unique_ptr<unsigned char[]> &tldlir001::Image::getData()
+{
+    return data;
+}
+
 
 void tldlir001::Image::load(std::string name)
 {

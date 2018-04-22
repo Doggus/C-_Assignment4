@@ -44,6 +44,11 @@ namespace tldlir001
 
             unsigned char clamp(int c);
 
+            int getHeight();
+            int getWidth();
+            std::unique_ptr<unsigned char[]> &getData();
+
+
         class iterator
         {
 
