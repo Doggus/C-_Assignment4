@@ -247,68 +247,14 @@ unsigned char tldlir001::Image::clamp(int c)
     return c;
 }
 
-std::ostream &tldlir001::operator<<(std::ostream & out, const tldlir001::Image &img) //friend method (thus don't include [...::Image::...] because technically not part of that class)
+void tldlir001::Image::operator<<(std::string name) //friend method (thus don't include [...::Image::...] because technically not part of that class)
 {
-    
-     tldlir001::Image image(img);
-     cout << image.height << endl;
-     cout << image.width << endl;
-
-     out << "P5" << std::endl;
-     out << "# CREATOR: GIMP PNM Filter Version 1.1" << std::endl;
-     out << image.height << " " << image.width << std::endl;
-     out << "255" << std::endl;
-
-     for(auto i = image.begin(); i != image.End(); ++i)
-     {
-         out.put(*i);
-     }
-
-    return out;
+    this->save(name);
 }
 
-std::istream &tldlir001::operator>>(std::istream &in, Image &img)
+void tldlir001::Image::operator>>(std::string name)
 {
-    
-    tldlir001::Image image(img);
-   
-    if(!in)
-    {
-        cout << "Couldn't open file" << endl;
-    }
-    else
-    {
-        //skip two lines
-        string line = "";
-        getline(in, line);
-        getline(in, line);
-
-        getline(in, line); //height and width always on third line (height width)
-
-        istringstream buf(line);
-        istream_iterator<string> beg(buf), end;
-
-        vector<string> tokens(beg, end);
-
-        image.height = stoi(tokens[0]);
-        image.width = stoi(tokens[1]);
-
-        //create neccesary space
-        image.data = unique_ptr<unsigned char[]>(new unsigned char[(image.width)*(image.height)]);
-
-        //skip one more line
-        getline(in,line);
-
-        //fill data with well...data
-        for (auto i = image.begin(); i != image.End(); ++i)
-        {
-            *i = in.get();
-        }
-
-    }
-
-    return in; //?
-
+    this->load(name);
 }
 
 int tldlir001::Image::getHeight()

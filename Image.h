@@ -32,8 +32,8 @@ namespace tldlir001
             Image operator!(void);
             Image operator/(const Image &);
             Image operator*(const int &);
-            friend std::ostream &operator<<(std::ostream &out, const Image &);
-            friend std::istream &operator>>(std::istream &in, Image &);
+            void operator<<(std::string name);
+            void operator>>(std::string name);
 
             Image(std::string name); //normal
             Image(); //default

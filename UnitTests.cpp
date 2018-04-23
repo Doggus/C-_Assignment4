@@ -180,47 +180,22 @@ TEST_CASE("Threshold Operator","Tests functionality of Threshold Operator")
 
 }
 
-TEST_CASE("Save Method","Tests functionality of Save Method")
+TEST_CASE("Save And Load (i/o) Operators","Tests functionality of Save and load Operators and by proxy the save and load methods")
 {
-	tldlir001::Image img("shrek_rectangular.pgm");
-	img.save("Test_Output.pgm");
-	tldlir001::Image img2("Test_Output.pgm");
+    tldlir001::Image img;
+    img << "shrek_rectangular.pgm";
+    img << "Test_Output.pgm";
+    tldlir001::Image img2("Test_Output.pgm");
 
-	auto i2 = img2.begin();
-	for (auto i = img.begin(); i != img.End(); ++i)
+
+    auto i2 = img2.begin();
+    for (auto i = img.begin(); i != img.End(); ++i)
     {
-    	REQUIRE(*i == *i2);
-    	++i2;
+        REQUIRE(*i == *i2);
+        ++i2;
     }
 
 }
-
-/*
-TEST_CASE("Save Operator","Tests functionality of Save Operator")
-{
-	tldlir001::Image img("shrek_rectangular.pgm");
-    ofstream out("Test_Output2.pgm", ios::binary);
-    out << img;
-	tldlir001::Image img2("Test_Output2.pgm");
-
-	auto i2 = img2.begin();
-	for (auto i = img.begin(); i != img.End(); ++i)
-    {
-    	REQUIRE(*i == *i2);
-    	++i2;
-    }
-
-}
-
-
-TEST_CASE("Load Operator", "Tests functionality of Load Operator")
-{
-
-}
-
-*/
-
-// ITERATOR OPERATOR TESTS NECCESARY?
 
 
 

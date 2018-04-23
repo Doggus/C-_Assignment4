@@ -9,55 +9,45 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 
-    //tldlir001::Image img("shrek_rectangular.pgm");
-    //tldlir001::Image img2("shrek_rectangular.pgm");
+    //tldlir001::Image image("shrek_rectangular.pgm");
     //tldlir001::Image Mask("donkey_mask.pgm");
-
-    //tldlir001::Image imgP = img + img2;
-    //tldlir001::Image imgM = img - img2;
-    //tldlir001::Image imgI = !img;
-    //tldlir001::Image imgMsk = img/Mask;
-    //tldlir001::Image imgT = img*150;
-    //tldlir001::Image imgIP = !imgP;
-
-    //imgP.save("output.pgm");
-    //img.save("output.pgm");
-    //imgMsk.save("outputMask.pgm");
-
-    //ofstream out("output.pgm", ios::binary);
-    //out << imgP;
-
-    //ifstream in("shrek_rectangular.pgm");
-    //tldlir001::Image im;
-    //in >> im; // doesn't work
-    //out << im;
-
-
-    tldlir001::Image image("shrek_rectangular.pgm");
-    tldlir001::Image Mask("donkey_mask.pgm");
 
     if(strcmp(argv[1], "-a")==0) //is true
     {
-    	tldlir001::Image imgAdd = image + image;
-    	string name = argv[2];
+        string Input1 = argv[2];
+        string Input2= argv[3];
+        tldlir001::Image image1(Input1);
+        tldlir001::Image image2(Input2);
+        tldlir001::Image imgAdd = image1 + image2;
+    	string name = argv[4];
     	imgAdd.save(name);
     }
     else if(strcmp(argv[1], "-s")==0)
     {
-    	tldlir001::Image imgSub = image - image;
-    	string name = argv[2];
+        string Input1 = argv[2];
+        string Input2= argv[3];
+        tldlir001::Image image1(Input1);
+        tldlir001::Image image2(Input2);
+        tldlir001::Image imgSub = image1 - image2;
+    	string name = argv[4];
     	imgSub.save(name);
     }
     else if(strcmp(argv[1], "-i")==0)
     {
-    	tldlir001::Image imgInv = !image;
-    	string name = argv[2];
+        string Input = argv[2];
+        tldlir001::Image image(Input);
+        tldlir001::Image imgInv = !image;
+    	string name = argv[3];
     	imgInv.save(name);
     }
     else if(strcmp(argv[1], "-l")==0)
     {
-    	tldlir001::Image imgMask = image/Mask;
-    	string name = argv[2];
+        string Input1 = argv[2];
+        string Input2 = argv[3];
+        tldlir001::Image image(Input1);
+        tldlir001::Image mask(Input2);
+        tldlir001::Image imgMask = image/mask;
+    	string name = argv[4];
     	imgMask.save(name);
     }
     else if(strcmp(argv[1], "-t")==0)
@@ -65,8 +55,10 @@ int main(int argc, char* argv[])
     	int t;
     	cout << "Enter a threshold value" << endl;
     	cin >> t;
+        string Input = argv[2];
+        tldlir001::Image image(Input);
     	tldlir001::Image imgThresh = image * t;
-    	string name = argv[2];
+    	string name = argv[3];
     	imgThresh.save(name);
     }
     else
